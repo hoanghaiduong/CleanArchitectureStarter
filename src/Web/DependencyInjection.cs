@@ -12,8 +12,6 @@ public static class DependencyInjection
     {
         services.AddDatabaseDeveloperPageExceptionFilter();
 
-        services.AddScoped<IUser, CurrentUser>();
-
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks()
@@ -24,7 +22,7 @@ public static class DependencyInjection
         services.AddRazorPages();
 
         services.AddSwaggerGen();
-       
+
         // Customise default API behaviour
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);

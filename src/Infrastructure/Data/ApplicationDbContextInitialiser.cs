@@ -1,12 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using MyWebApi.Domain.Constants;
-using MyWebApi.Domain.Entities;
-using MyWebApi.Infrastructure.Identity;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyWebApi.Domain.Constants;
+
 
 namespace MyWebApi.Infrastructure.Data;
 
@@ -28,15 +26,11 @@ public class ApplicationDbContextInitialiser
 {
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
-        _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     public async Task InitialiseAsync()
@@ -52,29 +46,21 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task SeedAsync()
-    {
-        try
-        {
-            await TrySeedAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
-            throw;
-        }
-    }
+    //public async Task SeedAsync()
+    //{
+    //    try
+    //    {
+    //        await TrySeedAsync();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        _logger.LogError(ex, "An error occurred while seeding the database.");
+    //        throw;
+    //    }
+    //}
 
-    public async Task TrySeedAsync()
-    {
-        // Default roles
-        var administratorRole = new IdentityRole(Roles.Administrator);
-
-        if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
-        {
-            await _roleManager.CreateAsync(administratorRole);
-        }
-
+    //public async Task TrySeedAsync()
+    //{
        
-    }
+    //}
 }

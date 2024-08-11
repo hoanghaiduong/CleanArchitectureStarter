@@ -1,30 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace MyWebApi.Domain.Entities;
 
-namespace MyWebApi.Domain.Entities
+public partial class Hotel
 {
-    //Kết hợp annotation
-    public class Hotel : BaseAuditableEntity
-    {
-        public int HotelID { get; set; }
+    public int HotelId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Name { get; set; } = string.Empty!;
+    public string? Name { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        public string Address { get; set; } = string.Empty!;
+    public string? Address { get; set; }
 
-        [Phone]
-        public string? Phone { get; set; }
+    public string? Phone { get; set; }
 
-        [EmailAddress]
-        public string? Email { get; set; }
+    public string? Email { get; set; }
 
-        [Range(1, 5)]
-        public string? Stars { get; set; }
+    public int? Stars { get; set; }
 
-        public DateTime? CheckinTime { get; set; }
-        public DateTime? CheckoutTime { get; set; }
-    }
+    public TimeOnly? CheckinTime { get; set; }
+
+    public TimeOnly? CheckoutTime { get; set; }
+
+    //public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

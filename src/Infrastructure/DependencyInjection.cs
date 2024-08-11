@@ -6,7 +6,7 @@ using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Domain.Constants;
 using MyWebApi.Infrastructure.Data;
 using MyWebApi.Infrastructure.Data.Interceptors;
-using MyWebApi.Infrastructure.Identity;
+
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -14,9 +14,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        
+
         var connectionString = configuration.GetConnectionString("DefaultConnectionMain");
-        //Console.WriteLine(connectionString);
         Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
@@ -33,23 +32,12 @@ public static class DependencyInjection
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
-        services.AddAuthentication()
-            .AddBearerToken(IdentityConstants.BearerScheme);
-
-        services.AddAuthorizationBuilder();
-
-        services
-            .AddIdentityCore<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddApiEndpoints();
+    
+        //services.AddAuthorizationBuilder();
 
         services.AddSingleton(TimeProvider.System);
-        services.AddTransient<IIdentityService, IdentityService>();
 
-        services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
-
+        
         return services;
     }
 }

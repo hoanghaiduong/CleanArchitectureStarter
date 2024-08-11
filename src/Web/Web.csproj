@@ -22,10 +22,4 @@
   </ItemGroup>
 
 
-  <!-- Auto-generated Open API specification and Angular TypeScript clients -->
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <UserSecretsId>3d46eabe-d730-465c-9b29-8bb361ecd7ee</UserSecretsId>
-  </PropertyGroup>
-
 </Project>

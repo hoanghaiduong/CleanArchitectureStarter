@@ -13,7 +13,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{ 
+{
     app.UseSwagger();
     app.UseSwaggerUI();
     await app.InitialiseDatabaseAsync();
@@ -28,7 +28,10 @@ app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseExceptionHandler(options => { });
+app.UseExceptionHandler(options => {
+    
+
+});
 
 
 //Nếu sử dụng UI

@@ -8,14 +8,12 @@ namespace MyWebApi.Infrastructure.Data.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
-    private readonly IUser _user;
+  
     private readonly TimeProvider _dateTime;
 
     public AuditableEntityInterceptor(
-        IUser user,
         TimeProvider dateTime)
     {
-        _user = user;
         _dateTime = dateTime;
     }
 
@@ -44,10 +42,8 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                 var utcNow = _dateTime.GetUtcNow();
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = _user.Id;
                     entry.Entity.Created = utcNow;
                 }
-                entry.Entity.LastModifiedBy = _user.Id;
                 entry.Entity.LastModified = utcNow;
             }
         }
