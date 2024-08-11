@@ -32,8 +32,6 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-           
-           
 
             _logger.LogWarning("MyWebApi Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
                 requestName, elapsedMilliseconds, request);
