@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-
+using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
 namespace MyWebApi.Web.Controllers;
@@ -8,11 +8,21 @@ namespace MyWebApi.Web.Controllers;
 [ApiController]
 public class TestsController : ApiControllerBase
 {
-    [HttpGet]
-    public async Task<ActionResult> TestApi()
+    private readonly IApplicationDbContext? _context;
+
+    public TestsController(IApplicationDbContext? context)
     {
-        var sender = await Mediator.Send(new GetWeatherForecastsQuery());
-        return Ok(sender);
+        _context = context;
     }
 
+    [HttpGet]
+    public ActionResult TestApi()
+    {
+        var hotels = _context?.Hotels.ToList();
+
+        return Ok(new
+        {
+            hotels
+        });
+    }
 }
