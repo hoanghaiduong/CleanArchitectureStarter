@@ -22,4 +22,5 @@ public class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecas
             Summary = Summaries[rng.Next(Summaries.Length)]
         });
     }
+
 }
