@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Infrastructure.Data;
-using MyWebApi.Web.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
