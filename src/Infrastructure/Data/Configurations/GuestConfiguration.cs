@@ -9,23 +9,26 @@ using System.Collections.Generic;
 
 namespace MyWebApi.Infrastructure.Data.Configurations
 {
-    public partial class HotelConfiguration : IEntityTypeConfiguration<Hotel>
+    public partial class GuestConfiguration : IEntityTypeConfiguration<Guest>
     {
-        public void Configure(EntityTypeBuilder<Hotel> entity)
+        public void Configure(EntityTypeBuilder<Guest> entity)
         {
-            entity.HasKey(e => e.HotelID).HasName("PK__Hotel__46023BBF5CAD8735");
+            entity.HasKey(e => e.GuestID).HasName("PK__Guest__0C423C32C3A031EA");
 
-            entity.ToTable("Hotel");
+            entity.ToTable("Guest");
 
-            entity.Property(e => e.HotelID).ValueGeneratedNever();
+            entity.Property(e => e.GuestID).ValueGeneratedNever();
             entity.Property(e => e.Address)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
@@ -34,6 +37,6 @@ namespace MyWebApi.Infrastructure.Data.Configurations
             OnConfigurePartial(entity);
         }
 
-        partial void OnConfigurePartial(EntityTypeBuilder<Hotel> entity);
+        partial void OnConfigurePartial(EntityTypeBuilder<Guest> entity);
     }
 }

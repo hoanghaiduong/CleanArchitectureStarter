@@ -1,13 +1,13 @@
-﻿namespace MyWebApi.Application.FunctionalTests;
+﻿//namespace MyWebApi.Application.FunctionalTests;
 
-public static class TestDatabaseFactory
-{
-    public static async Task<ITestDatabase> CreateAsync()
-    {
-        var database = new TestcontainersTestDatabase();
+//public static class TestDatabaseFactory
+//{
+//    public static async Task<ITestDatabase> CreateAsync()
+//    {
+//        var database = new TestcontainersTestDatabase();
 
-        await database.InitialiseAsync();
+//        await database.InitialiseAsync();
 
-        return database;
-    }
-}
+//        return database;
+//    }
+//}

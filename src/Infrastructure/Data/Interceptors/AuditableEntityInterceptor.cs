@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Domain.Common;
 
 namespace MyWebApi.Infrastructure.Data.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
-  
+
     private readonly TimeProvider _dateTime;
 
     public AuditableEntityInterceptor(

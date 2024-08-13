@@ -1,25 +1,24 @@
 ﻿using System.Reflection;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyWebApi.Application.Common.Interfaces;
-using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Infrastructure.Data;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-    //public virtual DbSet<Booking> Bookings { get; set; }
 
-    //public virtual DbSet<Guest> Guests { get; set; }
+    public DbSet<Booking> Bookings => Set<Booking>();
 
-    public virtual DbSet<Hotel> Hotels { get; set; }
+    public DbSet<Guest> Guests => Set<Guest>();
 
-    //public virtual DbSet<Payment> Payments { get; set; }
+    public DbSet<Hotel> Hotels => Set<Hotel>();
 
-    //public virtual DbSet<Room> Rooms { get; set; }
+    public DbSet<Payment> Payments => Set<Payment>();
 
-    //public virtual DbSet<RoomType> RoomTypes { get; set; }
+    public DbSet<Room> Rooms => Set<Room>();
+
+    public DbSet<RoomType> RoomTypes => Set<RoomType>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

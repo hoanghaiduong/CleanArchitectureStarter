@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace MyWebApi.Domain.Entities;
 
-public partial class Room
+public partial class Event
 {
-    public int RoomNumber { get; set; }
+    public int EventID { get; set; }
 
-    public int? HotelID { get; set; }
+    public string? EventType { get; set; }
 
-    public int? TypeID { get; set; }
+    public string? EventDescription { get; set; }
 
-    public string? Status { get; set; }
+    public DateTime? EventDateTime { get; set; }
 }

@@ -1,6 +1,5 @@
 ﻿using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Infrastructure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks()
-            .AddDbContextCheck<ApplicationDbContext>();
+            .AddDbContextCheck<THUCHANHNET8_DAFContext>();
 
         services.AddExceptionHandler<CustomExceptionHandler>();
 

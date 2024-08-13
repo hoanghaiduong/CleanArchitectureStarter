@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using MyWebApi.Application.Common.Interfaces;
 
 namespace MyWebApi.Application.Common.Behaviours;
 
@@ -16,7 +15,7 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         _timer = new Stopwatch();
 
         _logger = logger;
-      
+
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -32,8 +31,8 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-           
-           
+
+
 
             _logger.LogWarning("MyWebApi Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
                 requestName, elapsedMilliseconds, request);
