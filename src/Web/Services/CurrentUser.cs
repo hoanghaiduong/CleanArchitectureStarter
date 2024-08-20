@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-
 using MyWebApi.Application.Common.Interfaces;
 
 namespace MyWebApi.Web.Services;

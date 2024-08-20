@@ -1,7 +1,10 @@
 ﻿using Azure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Infrastructure.Data;
+using MyWebApi.Infrastructure.Filters;
 using MyWebApi.Web.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -11,6 +14,7 @@ public static class DependencyInjection
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
         services.AddDatabaseDeveloperPageExceptionFilter();
+        services.AddScoped<IUser, CurrentUser>();
 
         services.AddHttpContextAccessor();
 
@@ -21,13 +25,9 @@ public static class DependencyInjection
 
         services.AddRazorPages();
 
-        services.AddSwaggerGen();
 
-        // Customise default API behaviour
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
-
-        services.AddEndpointsApiExplorer();
 
         services.AddControllers();
 
