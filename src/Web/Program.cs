@@ -1,4 +1,5 @@
-﻿using MyWebApi.Web.Services;
+﻿using MyWebApi.Infrastructure.Identity;
+using MyWebApi.Web.Services;
 
 public partial class Program
 {
@@ -7,7 +8,7 @@ public partial class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-    
+        builder.Services.Configure<SMSoptions>(builder.Configuration.GetSection("SMSoptions"));
         // Add services to the container.
         builder.Services.AddSwaggerExplorer();
         builder.Services.InjectDBContext(builder.Configuration);
@@ -16,6 +17,7 @@ public partial class Program
         builder.Services.AddIdentityHandlerAndStore().ConfigureIdentityOptions().AddIdentityAuth(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddWebServices();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
