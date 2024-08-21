@@ -5,6 +5,7 @@ public partial class Program
 {
     private static async Task Main(string[] args)
     {
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
@@ -17,7 +18,8 @@ public partial class Program
         builder.Services.AddIdentityHandlerAndStore().ConfigureIdentityOptions().AddIdentityAuth(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddWebServices();
-
+        Console.WriteLine(builder.Configuration["Authentication:Google:ClientId"]);
+        Console.WriteLine(builder.Configuration["Authentication:Google:ClientSecret"]);
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -37,6 +39,7 @@ public partial class Program
         app.MapControllers();
 
         app.Run();
+
     }
 }
 

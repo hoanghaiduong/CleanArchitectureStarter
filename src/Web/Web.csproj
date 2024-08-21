@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>MyWebApi.Web</RootNamespace>
     <AssemblyName>MyWebApi.Web</AssemblyName>
+    <UserSecretsId>dc6c5765-0298-4cff-9d06-1861f0f10ffc</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

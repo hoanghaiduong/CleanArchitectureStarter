@@ -6,9 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MyWebApi.Application.Common.Security;
-using MyWebApi.Application.WeatherForecasts.Queries.GetWeatherForecasts;
-using MyWebApi.Domain.Constants;
+
 using MyWebApi.Infrastructure.Identity;
 
 namespace MyWebApi.Web.Controllers;
@@ -24,13 +22,7 @@ public class TestsController : ApiControllerBase
         _configuration = configuration;
     }
 
-    [HttpGet]
-
-    public async Task<ActionResult> TestApi()
-    {
-        var sender = await Mediator.Send(new GetWeatherForecastsQuery());
-        return Ok(sender);
-    }
+    
 
     // [HttpPost("Register")]
     // [Authorize(Roles = Roles.Administrator, Policy = Policies.CanPurge)]
