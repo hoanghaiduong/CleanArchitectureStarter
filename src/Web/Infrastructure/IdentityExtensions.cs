@@ -91,11 +91,16 @@ namespace MyWebApi.Web.Infrastructure
                 options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme, "RefreshToken")
             .RequireAuthenticatedUser()
             .Build();
-                options.AddPolicy(Policies.EmailConfirmed, policy =>
+                options.AddPolicy(Policies.Manager, policy =>
                 {
-                    policy.RequireAssertion(handler: context => Boolean.Parse(context.User.Claims.First(u => u.Type == "EmailVerified").Value));
+                    //policy.RequireAssertion(handler: context => Boolean.Parse(context.User.Claims.First(u => u.Type == "EmailVerified").Value));
+                    policy.RequireRole(Roles.Staff);
                 });
-              
+                options.AddPolicy(Policies.Receptionist, policy =>
+                {
+                 
+                    policy.RequireRole(Roles.Staff);
+                });
             });
 
 

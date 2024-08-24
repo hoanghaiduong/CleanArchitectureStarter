@@ -12,8 +12,8 @@ using MyWebApi.Infrastructure.Data;
 namespace MyWebApi.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240816184513_InitialIdentity")]
-    partial class InitialIdentity
+    [Migration("20240822132851_AddInitCodeFirstToDB")]
+    partial class AddInitCodeFirstToDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,209 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Booking", b =>
+                {
+                    b.Property<string>("BookingID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("CheckinDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("CheckoutDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("UserID");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("BookingID");
+
+                    b.HasIndex("GuestID");
+
+                    b.HasIndex("RoomID");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Hotel", b =>
+                {
+                    b.Property<string>("HotelID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly?>("CheckinTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly?>("CheckoutTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Stars")
+                        .HasColumnType("int");
+
+                    b.HasKey("HotelID");
+
+                    b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Payment", b =>
+                {
+                    b.Property<string>("PaymentID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal?>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BookingID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("PaymentDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentID");
+
+                    b.HasIndex("BookingID");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Room", b =>
+                {
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HotelID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomTypeID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoomID");
+
+                    b.HasIndex("HotelID");
+
+                    b.HasIndex("RoomTypeID");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.RoomType", b =>
+                {
+                    b.Property<string>("RoomTypeID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PricePerNight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("RoomTypeID");
+
+                    b.ToTable("RoomTypes");
+                });
+
             modelBuilder.Entity("MyWebApi.Infrastructure.Identity.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -183,6 +386,9 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("HotelID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,6 +426,8 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HotelID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -281,6 +489,87 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Booking", b =>
+                {
+                    b.HasOne("MyWebApi.Infrastructure.Identity.ApplicationUser", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("GuestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MyWebApi.Domain.Entities.Room", "Room")
+                        .WithMany("Bookings")
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("MyWebApi.Domain.Entities.Booking", "Booking")
+                        .WithMany("Payments")
+                        .HasForeignKey("BookingID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Room", b =>
+                {
+                    b.HasOne("MyWebApi.Domain.Entities.Hotel", "Hotel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HotelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWebApi.Domain.Entities.RoomType", "RoomType")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("MyWebApi.Infrastructure.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("MyWebApi.Domain.Entities.Hotel", "Hotel")
+                        .WithMany()
+                        .HasForeignKey("HotelID");
+
+                    b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Booking", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Hotel", b =>
+                {
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.Room", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("MyWebApi.Domain.Entities.RoomType", b =>
+                {
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("MyWebApi.Infrastructure.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

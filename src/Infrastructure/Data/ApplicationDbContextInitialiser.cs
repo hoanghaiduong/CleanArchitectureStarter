@@ -73,16 +73,8 @@ public class ApplicationDbContextInitialiser
                 Description = "Quản lý toàn bộ hệ thống, bao gồm quản lý admin, người dùng, phòng, dịch vụ, v.v.",
             },
             new ApplicationRole{
-                Name = Roles.Admin,
-                Description = "Quản lý hệ thống, người dùng, phòng, dịch vụ.",
-            },
-            new ApplicationRole{
-                Name = Roles.Manager,
-                Description = "Quản lý khách sạn cụ thể, bao gồm quản lý đặt phòng, khách hàng, và dịch vụ tại khách sạn đó.",
-            },
-            new ApplicationRole{
-                Name = Roles.Receptionist,
-                Description = "Xử lý check-in, check-out, và hỗ trợ khách hàng tại khách sạn.",
+                Name = Roles.Staff,
+                Description = "Nhân viên hệ thống.",
             },
                new ApplicationRole{
                 Name = Roles.Guest,

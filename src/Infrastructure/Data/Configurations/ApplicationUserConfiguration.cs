@@ -8,7 +8,12 @@ namespace MyWebApi.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-        
+            builder.HasKey(user => user.Id);
+            builder.HasMany(e => e.Bookings)
+                    .WithOne()
+                    .HasForeignKey(e => e.GuestID)
+                    .IsRequired();
+
         }
     }
 }

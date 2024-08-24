@@ -18,7 +18,7 @@ using MyWebApi.Web.Services;
 
 namespace MyWebApi.Web.Endpoints
 {
-    public class IdentityUser : EndpointGroupBase
+    public class IdentityUserEndPoint : EndpointGroupBase
     {
         public override void Map(WebApplication app)
         {
