@@ -1,10 +1,10 @@
 ﻿using Azure.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Infrastructure.Data;
-using MyWebApi.Infrastructure.Filters;
+
 using MyWebApi.Web.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;

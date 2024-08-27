@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Domain.Entities;
 
-using MyWebApi.Infrastructure.Identity;
 
 namespace MyWebApi.Infrastructure.Data;
 

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyWebApi.Infrastructure.Identity;
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Infrastructure.Data.Configurations
 {
@@ -8,11 +8,11 @@ namespace MyWebApi.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            builder.HasKey(user => user.Id);
-            builder.HasMany(e => e.Bookings)
-                    .WithOne()
-                    .HasForeignKey(e => e.GuestID)
-                    .IsRequired();
+            // builder.HasKey(user => user.Id);
+            // builder.HasMany(e => e.Bookings)
+            //         .WithOne()
+            //         .HasForeignKey(e => e.GuestID)
+            //         .IsRequired();
 
         }
     }

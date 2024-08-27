@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyWebApi.Application.Common.Mappings;
 using MyWebApi.Domain.Constants;
+using MyWebApi.Domain.Entities;
 using MyWebApi.Infrastructure.Data;
 using MyWebApi.Infrastructure.Identity;
 using MyWebApi.Web.Services;

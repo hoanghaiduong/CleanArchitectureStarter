@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyWebApi.Infrastructure.Identity;
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Infrastructure.Data.Configurations
 {

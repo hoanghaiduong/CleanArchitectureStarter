@@ -1,5 +1,7 @@
 ﻿
 
+using MyWebApi.Domain.Entities;
+
 namespace MyWebApi.Application.Common.Models;
 
 public class LookupDto
@@ -12,7 +14,7 @@ public class LookupDto
     {
         public Mapping()
         {
-            //CreateMap<TodoList, LookupDto>();
+            CreateMap<RoomType, LookupDto>();
             //CreateMap<TodoItem, LookupDto>();
         }
     }

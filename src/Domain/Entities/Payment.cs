@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyWebApi.Domain.Entities
 {
-    public class Payment :BaseAuditEntityCustom
+    public class Payment : BaseAuditEntityCustom
     {
         [Key]//primary key
         public string PaymentID { get; set; } = Guid.NewGuid().ToString(); // Auto-generate GUID
@@ -17,6 +17,6 @@ namespace MyWebApi.Domain.Entities
 
         public string? PaymentMethod { get; set; }
 
-        public virtual Booking? Booking { get; set; }=null!;
+        public virtual Booking? Booking { get; set; } = null!;
     }
 }

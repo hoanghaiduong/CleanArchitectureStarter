@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Application.Common.Models;
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Infrastructure.Identity;
 public class IdentityService : IIdentityService

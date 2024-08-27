@@ -1,10 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
-using MyWebApi.Domain.Entities;
 
-namespace MyWebApi.Infrastructure.Identity;
+namespace MyWebApi.Domain.Entities;
 public class ApplicationUser : IdentityUser
 {
     [PersonalData]

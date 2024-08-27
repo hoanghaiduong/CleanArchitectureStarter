@@ -7,7 +7,7 @@ namespace MyWebApi.Domain.Entities
     public class Hotel : BaseAuditEntityCustom
     {
         [Key]
-        public string? HotelID { get; set; }= Guid.NewGuid().ToString(); // Auto-generate GUID
+        public string? HotelID { get; set; } = Guid.NewGuid().ToString(); // Auto-generate GUID
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name must be provided")]
         public string? Name { get; set; }
@@ -26,6 +26,8 @@ namespace MyWebApi.Domain.Entities
         public TimeOnly? CheckoutTime { get; set; }
 
         public virtual ICollection<Room> Rooms { get; private set; } = new List<Room>();
-        
+
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; private set; } = new List<ApplicationUser>();
+
     }
 }

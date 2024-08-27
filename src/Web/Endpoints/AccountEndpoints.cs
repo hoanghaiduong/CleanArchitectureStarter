@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyWebApi.Infrastructure.Identity;
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Web.Endpoints
 {

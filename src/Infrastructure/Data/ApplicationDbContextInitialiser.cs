@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyWebApi.Domain.Constants;
-using MyWebApi.Infrastructure.Identity;
-
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Infrastructure.Data;
 
@@ -14,11 +13,9 @@ public static class InitialiserExtensions
     public static async Task InitialiseDatabaseAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-
         var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
 
         await initialiser.InitialiseAsync();
-
         await initialiser.SeedAsync();
     }
 }
@@ -30,7 +27,11 @@ public class ApplicationDbContextInitialiser
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
 
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public ApplicationDbContextInitialiser(
+        ILogger<ApplicationDbContextInitialiser> logger,
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager)
     {
         _logger = logger;
         _context = context;
@@ -46,7 +47,7 @@ public class ApplicationDbContextInitialiser
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while initialising the database.");
+            _logger.LogError(ex, "An error occurred while initializing the database.");
             throw;
         }
     }
@@ -55,7 +56,8 @@ public class ApplicationDbContextInitialiser
     {
         try
         {
-            await TrySeedAsync();
+            await SeedRolesAsync();
+            await SeedDefaultUsersAsync();
         }
         catch (Exception ex)
         {
@@ -64,73 +66,58 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task TrySeedAsync()
+    private async Task SeedRolesAsync()
     {
-        // Default roles
-        var roles = new[]{
-            new ApplicationRole{
-                Name = Roles.Administrator,
-                Description = "Quản lý toàn bộ hệ thống, bao gồm quản lý admin, người dùng, phòng, dịch vụ, v.v.",
-            },
-            new ApplicationRole{
-                Name = Roles.Staff,
-                Description = "Nhân viên hệ thống.",
-            },
-               new ApplicationRole{
-                Name = Roles.Guest,
-                Description = "Người dùng đăng ký như khách hàng, chỉ có quyền truy cập vào thông tin của chính mình.",
-            },
+        var roles = new[]
+        {
+            new ApplicationRole { Name = Roles.Administrator, Description = "Quản lý toàn bộ hệ thống." },
+            new ApplicationRole { Name = Roles.Staff, Description = "Nhân viên hệ thống." },
+            new ApplicationRole { Name = Roles.Guest, Description = "Người dùng đăng ký như khách hàng." },
         };
 
-
-        // Check and create roles if not exist
         foreach (var role in roles)
         {
-
             if (await _roleManager.FindByNameAsync(role.Name!) == null)
             {
                 var result = await _roleManager.CreateAsync(role);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation($"Role '{role.Name}' created successfully.");
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to create role '{role.Name}': {string.Join(", ", result.Errors.Select(e => e.Description))}");
-                }
+                LogResult(result, $"Role '{role.Name}' created successfully.", $"Failed to create role '{role.Name}'");
             }
-
         }
+    }
 
+    private async Task SeedDefaultUsersAsync()
+    {
+        await CreateDefaultUserAsync("administrator@localhost", "Administrator1!", new[] { Roles.Administrator, Roles.Staff, Roles.Guest });
+        await CreateDefaultUserAsync("staff@localhost", "staff@localhost", new[] { Roles.Staff });
+        await CreateDefaultUserAsync("guest@localhost", "guest@localhost", new[] { Roles.Guest });
+    }
 
-        // Default admin user
-        var adminEmail = "administrator@localhost";
-        var adminUser = await _userManager.FindByEmailAsync(adminEmail);
-
-        if (adminUser == null)
+    private async Task CreateDefaultUserAsync(string email, string password, string[] roles)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
         {
-            adminUser = new ApplicationUser { UserName = adminEmail, Email = adminEmail };
-            var userResult = await _userManager.CreateAsync(adminUser, "Administrator1!");
+            user = new ApplicationUser { UserName = email, Email = email };
+            var userResult = await _userManager.CreateAsync(user, password);
+            LogResult(userResult, $"User '{email}' created successfully.", $"Failed to create user '{email}'");
 
             if (userResult.Succeeded)
             {
-                _logger.LogInformation($"User '{adminUser.UserName}' created successfully.");
+                var roleResult = await _userManager.AddToRolesAsync(user, roles);
+                LogResult(roleResult, $"User '{email}' added to roles successfully.", $"Failed to add user '{email}' to roles");
+            }
+        }
+    }
 
-                // Add to Administrator role
-                var addToRoleResult = await _userManager.AddToRolesAsync(adminUser, roles.Select(r=>r.Name!));
-                if (addToRoleResult.Succeeded)
-                {
-                    _logger.LogInformation($"User '{adminUser.UserName}' added to roles successfully.");
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to add user '{adminUser.UserName}' to roles: {string.Join(", ", addToRoleResult.Errors.Select(e => e.Description))}");
-                }
-            }
-            else
-            {
-                _logger.LogWarning($"Failed to create user '{adminUser.UserName}': {string.Join(", ", userResult.Errors.Select(e => e.Description))}");
-            }
+    private void LogResult(IdentityResult result, string successMessage, string failureMessage)
+    {
+        if (result.Succeeded)
+        {
+            _logger.LogInformation(successMessage);
+        }
+        else
+        {
+            _logger.LogWarning($"{failureMessage}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace MyWebApi.Web.Infrastructure
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen((configure) =>
             {
+                configure.EnableAnnotations();
                 configure.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "JWT Authentication",

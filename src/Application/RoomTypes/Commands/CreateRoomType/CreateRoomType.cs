@@ -5,7 +5,7 @@ using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Application.RoomTypes.Commands.CreateRoomType
 {
-    public class CreateRoomTypeCommand : IRequest<string>
+    public record CreateRoomTypeCommand : IRequest<RoomType>
     {
 
         public string? Name { get; init; }
@@ -16,16 +16,11 @@ namespace MyWebApi.Application.RoomTypes.Commands.CreateRoomType
 
         public int Capacity { get; init; }
     }
-    public class CreateRoomTypeCommandHandler : IRequestHandler<CreateRoomTypeCommand, string>
+    public class CreateRoomTypeCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateRoomTypeCommand,RoomType>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IApplicationDbContext _context = context;
 
-        public CreateRoomTypeCommandHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<string> Handle(CreateRoomTypeCommand request, CancellationToken cancellationToken)
+        public async Task<RoomType> Handle(CreateRoomTypeCommand request, CancellationToken cancellationToken)
         {
             var entity = new RoomType
             {
@@ -38,7 +33,7 @@ namespace MyWebApi.Application.RoomTypes.Commands.CreateRoomType
             };
             _context.RoomTypes.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            return entity.RoomTypeID;
+            return entity;
         }
     }
 }

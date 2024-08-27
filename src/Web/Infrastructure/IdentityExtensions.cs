@@ -4,10 +4,9 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MyWebApi.Infrastructure.Data;
-using MyWebApi.Infrastructure.Identity;
 using MyWebApi.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+using MyWebApi.Domain.Entities;
 
 
 namespace MyWebApi.Web.Infrastructure
@@ -33,6 +32,8 @@ namespace MyWebApi.Web.Infrastructure
                 ops.Password.RequireDigit = false;
                 ops.Password.RequireUppercase = false;
                 ops.Password.RequireLowercase = false;
+                ops.Password.RequireNonAlphanumeric = false;
+              
                 ops.User.RequireUniqueEmail = true;
             });
             return services;

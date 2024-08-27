@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MyWebApi.Infrastructure.Identity;
+namespace MyWebApi.Domain.Entities;
 public class ApplicationRole : IdentityRole
 {
-    public string? Description { get; set; } 
+    public string? Description { get; set; }
 
 }

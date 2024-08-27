@@ -1,5 +1,6 @@
 ﻿
-using MyWebApi.Infrastructure.Identity;
+
+using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Web.Endpoints;
 

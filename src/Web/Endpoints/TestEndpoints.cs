@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Application.Common.Models;
+using MyWebApi.Domain.Entities;
 using MyWebApi.Infrastructure.Identity;
 using MyWebApi.Web.Services;
 #nullable disable
@@ -19,6 +20,7 @@ namespace MyWebApi.Web.Endpoints
 {
     public class TestEndpoints : EndpointGroupBase
     {
+   
 
         public override void Map(WebApplication app)
         {

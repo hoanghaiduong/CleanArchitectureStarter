@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyWebApi.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddInitCodeFirstToDB : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -242,11 +242,12 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     BookingID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CheckinDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CheckoutDate = table.Column<DateOnly>(type: "date", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -256,11 +257,10 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Bookings", x => x.BookingID);
                     table.ForeignKey(
-                        name: "FK_Bookings_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Bookings_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bookings_Rooms_RoomID",
                         column: x => x.RoomID,
@@ -339,14 +339,14 @@ namespace MyWebApi.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_ApplicationUserId",
+                table: "Bookings",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomID",
                 table: "Bookings",
                 column: "RoomID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_UserID",
-                table: "Bookings",
-                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_BookingID",

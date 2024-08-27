@@ -1,5 +1,3 @@
-
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,6 +26,7 @@ namespace MyWebApi.Domain.Entities
 
         // Navigation properties
         public virtual Room? Room { get; set; }=null!;
+        public virtual ApplicationUser? ApplicationUser { get; set; }=null!;
      
         public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }
