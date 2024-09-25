@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using MyWebApi.Domain.Enums;
 
 namespace MyWebApi.Domain.Entities
@@ -11,16 +12,18 @@ namespace MyWebApi.Domain.Entities
         [Required]
         public int RoomNumber { get; set; }
         [Required]
-        public required string HotelID { get; set; } // Assuming a room must belong to a hotel
+        public  string? HotelID { get; set; } // Assuming a room must belong to a hotel
         [Required]
-        public required string RoomTypeID { get; set; }  // Each room must have a type
+        public  string? RoomTypeID { get; set; }  // Each room must have a type
 
         public ERoom Status { get; set; } = ERoom.Available; // Assuming default status
 
+       
         // Navigation properties
-
         public virtual RoomType? RoomType { get; set; } = null!;
-        public virtual Hotel? Hotel { get; set; }
-        public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public virtual Hotel? Hotel { get; set; } =null!;
+        public virtual ICollection<Booking> Bookings { get; set; } = [];
+        
+      
     }
 }

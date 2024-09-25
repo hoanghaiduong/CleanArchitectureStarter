@@ -3,9 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Domain.Entities;
 
 
@@ -16,13 +19,15 @@ public class TestsController : ApiControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    public TestsController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    private readonly IApplicationDbContext _context;
+    public TestsController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IApplicationDbContext context)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _context = context;
     }
 
-    
+
 
     // [HttpPost("Register")]
     // [Authorize(Roles = Roles.Administrator, Policy = Policies.CanPurge)]
@@ -78,6 +83,12 @@ public class TestsController : ApiControllerBase
         {
             return Results.BadRequest(ex.Message);
         }
+    }
+    [AllowAnonymous]
+    [HttpGet("test")]
+    public async Task<IResult> TestAsync(){
+        var result=await _context.Hotels.Include(x=>x.Rooms).ThenInclude(x=>x.RoomType).IgnoreAutoIncludes().Include(x=>x.ApplicationUsers).ToListAsync();
+        return Results.Ok(result);
     }
     [HttpPost("create-custom")]
     public async Task<ActionResult> SignUpUser(CreateUserCustomDTO dto)

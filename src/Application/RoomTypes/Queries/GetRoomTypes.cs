@@ -1,3 +1,4 @@
+using MyWebApi.Application.Common.DTO;
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Application.Common.Mappings;
 using MyWebApi.Application.Common.Models;
@@ -5,7 +6,7 @@ using MyWebApi.Domain.Entities;
 
 namespace MyWebApi.Application.RoomTypes.Queries
 {
-    public class RoomTypesVM
+    public record RoomTypesVM
     {
         public IReadOnlyCollection<RoomType>? RoomTypes { get; init; } = [];
     }

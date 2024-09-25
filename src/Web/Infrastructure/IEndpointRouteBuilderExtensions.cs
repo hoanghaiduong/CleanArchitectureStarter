@@ -24,7 +24,7 @@ public static class IEndpointRouteBuilderExtensions
         return builder;
     }
 
-    public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
+    public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
     {
         Guard.Against.AnonymousMethod(handler);
 
@@ -34,7 +34,8 @@ public static class IEndpointRouteBuilderExtensions
         return builder;
     }
 
-    public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
+
+    public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern="")
     {
         Guard.Against.AnonymousMethod(handler);
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyWebApi.Application.Common.DTO;
 using MyWebApi.Application.Common.Models;
 using MyWebApi.Application.RoomTypes.Commands.CreateRoomType;
 using MyWebApi.Application.RoomTypes.Commands.DeleteRoomType;
@@ -13,11 +14,13 @@ namespace MyWebApi.Web.Endpoints
 
         public override void Map(WebApplication app)
         {
+
             app.MapGroup("RoomType")
-            .MapGet(GetTodoItemsWithPagination)
+            .MapGet(GetTodoItemsWithPagination,"all")
+            .MapGet(FindRoomTypeByID)
             .MapPost(CreateRoomType)
-            .MapPut(UpdateRoomType, $"{{roomTypeID}}")
-            .MapDelete(DeleteRoomType, $"{{roomTypeID}}");
+            .MapPut(UpdateRoomType)
+            .MapDelete(DeleteRoomType);
         }
 
         [AllowAnonymous]
@@ -31,7 +34,18 @@ namespace MyWebApi.Web.Endpoints
             });
 
         }
+        [AllowAnonymous]
+        private async Task<IResult> FindRoomTypeByID([FromServices] ISender sender, [FromQuery] string roomTypeID)
+        {
+            var command = new GetRoomTypeQuery(roomTypeID);
+            var result = await sender.Send(command);
+            return Results.Ok(new
+            {
+                Message = "Get room type successfully",
+                Data = result
+            });
 
+        }
         [AllowAnonymous]
         private async Task<IResult> CreateRoomType([FromServices] ISender sender, [FromBody] CreateRoomTypeCommand command)
         {

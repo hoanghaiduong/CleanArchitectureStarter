@@ -1,5 +1,10 @@
 ﻿
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+
 using MyWebApi.Web.Services;
+
+
 
 public partial class Program
 {
@@ -9,7 +14,7 @@ public partial class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-      
+        builder.Services.Configure<JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         // Add services to the container.
         builder.Services.AddSwaggerExplorer();
         builder.Services.InjectDBContext(builder.Configuration);
@@ -18,20 +23,23 @@ public partial class Program
         builder.Services.AddIdentityHandlerAndStore().ConfigureIdentityOptions().AddIdentityAuth(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddWebServices();
-        Console.WriteLine(builder.Configuration["Authentication:Google:ClientId"]);
-        Console.WriteLine(builder.Configuration["Authentication:Google:ClientSecret"]);
+        // Console.WriteLine(builder.Configuration["Authentication:Google:ClientId"]);
+        // Console.WriteLine(builder.Configuration["Authentication:Google:ClientSecret"]);
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         await app.ConfigureSwaggerExplorer();
         app.AddIdentityMiddleware();
-
+        app.AddMiddleware();
         app.UseHealthChecks("/health");
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
-        app.UseExceptionHandler(options => { });
-
+        app.UseExceptionHandler(new ExceptionHandlerOptions()
+        {
+                AllowStatusCode404Response = true, // important!
+                ExceptionHandlingPath = "/error"
+        });
 
         //Nếu sử dụng UI
         app.MapRazorPages();

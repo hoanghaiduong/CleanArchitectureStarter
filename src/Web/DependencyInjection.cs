@@ -1,11 +1,13 @@
-﻿using Azure.Identity;
-
+﻿using System.Text.Json.Serialization;
+using Azure.Identity;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 using MyWebApi.Application.Common.Interfaces;
 using MyWebApi.Infrastructure.Data;
 
 using MyWebApi.Web.Services;
+using Newtonsoft.Json;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            options.JsonSerializerOptions.WriteIndented = true; // Optional: For pretty printing
+        });
         services.AddDatabaseDeveloperPageExceptionFilter();
         services.AddScoped<IUser, CurrentUser>();
 
@@ -21,7 +28,7 @@ public static class DependencyInjection
         services.AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>();
 
-        services.AddExceptionHandler<CustomExceptionHandler>();
+
 
         services.AddRazorPages();
 
@@ -29,7 +36,9 @@ public static class DependencyInjection
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
 
-        services.AddControllers();
+
+
+
 
         return services;
     }
